@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f4c8f343ffa2bf6801f690a44531682e",
+    "revision": "3777a0f358949a1200a693c8ab541944",
     "url": "/Synapse-React-Client/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Synapse-React-Client/static/css/2.09e53d3a.chunk.css"
   },
   {
-    "revision": "57c05e254bb614be6254",
-    "url": "/Synapse-React-Client/static/css/main.4b50f5a1.chunk.css"
+    "revision": "f21a5c1224cdc70018a0",
+    "url": "/Synapse-React-Client/static/css/main.7ed3d088.chunk.css"
   },
   {
     "revision": "9df0b50fa8677f252bd6",
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Synapse-React-Client/static/js/2.c6d2e788.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "57c05e254bb614be6254",
-    "url": "/Synapse-React-Client/static/js/main.799f19ef.chunk.js"
+    "revision": "f21a5c1224cdc70018a0",
+    "url": "/Synapse-React-Client/static/js/main.83a297ff.chunk.js"
   },
   {
     "revision": "da3e7e10b54cd159c858",
@@ -100,8 +100,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Synapse-React-Client/static/media/getCredit.a849487e.svg"
   },
   {
-    "revision": "350ecf7ba5680ffcd2d4315d031f1a35",
-    "url": "/Synapse-React-Client/static/media/homepage_1.350ecf7b.png"
+    "revision": "d86a9e0dc7d2bca6beafae9896029b11",
+    "url": "/Synapse-React-Client/static/media/homepage_1.d86a9e0d.svg"
   },
   {
     "revision": "d08abb59f917f6d4a97f2082fcc807f8",
