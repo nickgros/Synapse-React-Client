@@ -1,32 +1,27 @@
 {
   "files": {
-    "main.css": "/Synapse-React-Client/static/css/main.822495e6.chunk.css",
-    "main.js": "/Synapse-React-Client/static/js/main.e490045c.chunk.js",
-    "main.js.map": "/Synapse-React-Client/static/js/main.e490045c.chunk.js.map",
+    "main.css": "/Synapse-React-Client/static/css/main.2fff15ce.chunk.css",
+    "main.js": "/Synapse-React-Client/static/js/main.b28d67e2.chunk.js",
+    "main.js.map": "/Synapse-React-Client/static/js/main.b28d67e2.chunk.js.map",
     "runtime-main.js": "/Synapse-React-Client/static/js/runtime-main.799290ae.js",
     "runtime-main.js.map": "/Synapse-React-Client/static/js/runtime-main.799290ae.js.map",
     "static/css/2.09e53d3a.chunk.css": "/Synapse-React-Client/static/css/2.09e53d3a.chunk.css",
-    "static/js/2.b1581c0a.chunk.js": "/Synapse-React-Client/static/js/2.b1581c0a.chunk.js",
-    "static/js/2.b1581c0a.chunk.js.map": "/Synapse-React-Client/static/js/2.b1581c0a.chunk.js.map",
+    "static/js/2.1461c298.chunk.js": "/Synapse-React-Client/static/js/2.1461c298.chunk.js",
+    "static/js/2.1461c298.chunk.js.map": "/Synapse-React-Client/static/js/2.1461c298.chunk.js.map",
     "index.html": "/Synapse-React-Client/index.html",
-    "precache-manifest.98d322820e73eb8afc4c69b4785eaf63.js": "/Synapse-React-Client/precache-manifest.98d322820e73eb8afc4c69b4785eaf63.js",
+    "precache-manifest.7221b3b00ea730df636e14bf6eb66203.js": "/Synapse-React-Client/precache-manifest.7221b3b00ea730df636e14bf6eb66203.js",
     "service-worker.js": "/Synapse-React-Client/service-worker.js",
     "static/css/2.09e53d3a.chunk.css.map": "/Synapse-React-Client/static/css/2.09e53d3a.chunk.css.map",
-    "static/css/main.822495e6.chunk.css.map": "/Synapse-React-Client/static/css/main.822495e6.chunk.css.map",
-    "static/js/2.b1581c0a.chunk.js.LICENSE.txt": "/Synapse-React-Client/static/js/2.b1581c0a.chunk.js.LICENSE.txt",
-    "static/media/certified-microscope.a849487e.svg": "/Synapse-React-Client/static/media/certified-microscope.a849487e.svg",
-    "static/media/collaborate.773e1605.svg": "/Synapse-React-Client/static/media/collaborate.773e1605.svg",
-    "static/media/data-justice.58278321.svg": "/Synapse-React-Client/static/media/data-justice.58278321.svg",
-    "static/media/explore-research.ced8fba8.svg": "/Synapse-React-Client/static/media/explore-research.ced8fba8.svg",
+    "static/css/main.2fff15ce.chunk.css.map": "/Synapse-React-Client/static/css/main.2fff15ce.chunk.css.map",
+    "static/js/2.1461c298.chunk.js.LICENSE.txt": "/Synapse-React-Client/static/js/2.1461c298.chunk.js.LICENSE.txt",
     "static/media/all.css": "/Synapse-React-Client/static/media/fa-solid-900.8e1ed89b.woff2",
-    "static/media/homepage-composite.d86a9e0d.svg": "/Synapse-React-Client/static/media/homepage-composite.d86a9e0d.svg",
     "static/media/logo.svg": "/Synapse-React-Client/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.799290ae.js",
     "static/css/2.09e53d3a.chunk.css",
-    "static/js/2.b1581c0a.chunk.js",
-    "static/css/main.822495e6.chunk.css",
-    "static/js/main.e490045c.chunk.js"
+    "static/js/2.1461c298.chunk.js",
+    "static/css/main.2fff15ce.chunk.css",
+    "static/js/main.b28d67e2.chunk.js"
   ]
 }
