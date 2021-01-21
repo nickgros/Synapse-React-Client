@@ -1,6 +1,6 @@
 ```jsx
 
-<EntityFinder.MoveEntity 
+<MoveEntity 
   sessionToken={sessionToken} 
 
 />
