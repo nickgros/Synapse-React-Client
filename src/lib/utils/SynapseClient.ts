@@ -63,6 +63,7 @@ import {
   Evaluation,
   EvaluationRound,
   FileResult,
+  ProjectHeaderList,
 } from './synapseTypes/'
 import UniversalCookies from 'universal-cookie'
 import { dispatchDownloadListChangeEvent } from './functions/dispatchDownloadListChangeEvent'
@@ -1535,7 +1536,6 @@ export const getFileResult = (
   includePreSignedURLs?: boolean,
   includePreviewPreSignedURLs?: boolean,
 ): Promise<FileResult> => {
-
   return new Promise((resolve, reject) => {
     const fileHandleAssociationList: FileHandleAssociation[] = [
       {
@@ -1554,7 +1554,7 @@ export const getFileResult = (
       .then((data: BatchFileResult) => {
         if (
           data.requestedFiles.length &&
-          (data.requestedFiles[0].fileHandleId !== undefined)
+          data.requestedFiles[0].fileHandleId !== undefined
         ) {
           resolve(data.requestedFiles[0])
         } else {
@@ -2381,6 +2381,33 @@ export const deletePersonalAccessToken = (
 ) => {
   return doDelete(
     `/auth/v1/personalAccessToken/${accessTokenId}`,
+    sessionToken,
+    undefined,
+    BackendDestinationEnum.REPO_ENDPOINT,
+  )
+}
+
+// https://rest-docs.synapse.org/rest/GET/projects.html
+export const getMyProjects = (
+  sessionToken: string,
+  nextPageToken?: string,
+  teamId?: string,
+  filter?: 'ALL' | 'CREATED' | 'PARTICIPATED' | 'TEAM',
+  sort?: 'LAST_ACTIVITY' | 'PROJECT_NAME',
+  sortDirection?: 'ASC' | 'DESC',
+) => {
+  return doGet<ProjectHeaderList>(
+    `/repo/v1/projects
+    ${
+      [nextPageToken, teamId, filter, sort, sortDirection].some(x => !!x)
+        ? '?'
+        : ''
+    }
+    ${nextPageToken ? 'nextPageToken=' + nextPageToken + '&' : ''}
+    ${teamId ? 'teamId=' + teamId + '&' : ''}
+    ${filter ? 'filter=' + filter + '&' : ''}
+    ${sort ? 'sort=' + sort + '&' : ''}
+    ${sortDirection ? 'sortDirection=' + sortDirection + '&' : ''}`,
     sessionToken,
     undefined,
     BackendDestinationEnum.REPO_ENDPOINT,
