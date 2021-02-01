@@ -120,18 +120,74 @@ const Row: React.FunctionComponent<RowProps> = ({
   )
 }
 
+type TreeViewProps = {
+  sessionToken: string
+  entities: EntityHeader[]
+  selected: string // synId(s)
+  selectMultiple?: boolean
+  setSelected: Function
+  autoExpand: Function
+}
+
+const TreeView: React.FunctionComponent<TreeViewProps> = ({
+  sessionToken,
+  entities,
+  selected,
+  setSelected,
+  autoExpand,
+  selectMultiple = false,
+}) => {
+  const headerStyle: CSSProperties = {
+    fontWeight: 'bold',
+    padding: '16px 10px',
+    boxShadow: '0 3px 10px rgba(93, 105, 171, 0.1)',
+  }
+
+  return (
+    <div
+      style={{
+        border: '1px solid #dedede',
+        borderRadius: '5px',
+        width: 'fill-container',
+      }}
+    >
+      <div style={headerStyle}>
+        <span style={col1Style}>Name</span>
+        <span style={col2Style}>Status</span>
+        <span style={col3Style}>ID</span>
+      </div>
+      <div style={{ height: '400px', overflow: 'scroll' }}>
+        {entities?.map(entity => {
+          return (
+            <Row
+              key={entity.id}
+              sessionToken={sessionToken}
+              entityHeader={entity}
+              selectedId={selected}
+              setSelectedId={(entityId: string) => {
+                setSelected(entityId)
+              }}
+              autoExpand={autoExpand}
+            ></Row>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 export const MoveEntity: React.FunctionComponent<MoveEntityProps> = ({
   sessionToken,
   entityId,
 }) => {
   const [currentBrowsingDirectory, setCurrentBrowsingDirectory] = useState<
     EntityHeader[]
-  >()
+  >([])
   const [entityPath, setEntityPath] = useState<EntityHeader[]>([]) // Array of synIds, first is the project, last is the parent.
   const [source, setSource] = useState<string>() // synId of parent, maybe should be prop not state
   const [destination, setDestination] = useState<string>('') // synId
   const [currentProject, setCurrentProject] = useState<EntityHeader>()
-  const [myProjects, setMyProjects] = useState<Array<EntityHeader>>()
+  const [myProjects, setMyProjects] = useState<Array<EntityHeader>>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [browseWithin, setBrowseWithin] = useState<BrowseWithin>(
     BrowseWithin.CURRENT_PROJECT,
@@ -210,53 +266,28 @@ export const MoveEntity: React.FunctionComponent<MoveEntityProps> = ({
     setCanMove(source !== destination)
   }, [destination])
 
-  const headerStyle: CSSProperties = {
-    fontWeight: 'bold',
-    padding: '16px 10px',
-    boxShadow: '0 3px 10px rgba(93, 105, 171, 0.1)',
-  }
-
   return (
     <div className="bootstrap-4-backport">
       <h4>Move Entity</h4>
       {isLoading ? (
         <div className="spinner" />
       ) : (
-        <div
-          style={{
-            border: '1px solid #dedede',
-            borderRadius: '5px',
-            width: 'fill-container',
+        <TreeView
+          sessionToken={sessionToken}
+          entities={currentBrowsingDirectory}
+          setSelected={(id: string) => {
+            setDestination(id)
           }}
-        >
-          <div style={headerStyle}>
-            <span style={col1Style}>Name</span>
-            <span style={col2Style}>Status</span>
-            <span style={col3Style}>ID</span>
-          </div>
-          <div style={{ height: '400px', overflow: 'scroll' }}>
-            {currentBrowsingDirectory?.map(entity => {
-              return (
-                <Row
-                  key={entity.id}
-                  sessionToken={sessionToken}
-                  entityHeader={entity}
-                  selectedId={destination}
-                  setSelectedId={(entityId: string) => {
-                    setDestination(entityId)
-                  }}
-                  autoExpand={(entityHeader: EntityHeader) => {
-                    const value = entityPath
-                      .map(header => header.id)
-                      .includes(entityHeader.id)
-                    console.log(`autoexpand for ${entityHeader.name}: ${value}`)
-                    return value
-                  }}
-                ></Row>
-              )
-            })}
-          </div>
-        </div>
+          selected={destination}
+          autoExpand={(entityHeader: EntityHeader) => {
+            const value = entityPath
+              .map(header => header.id)
+              .includes(entityHeader.id)
+            console.log(`autoexpand for ${entityHeader.name}: ${value}`)
+            return value
+          }}
+        ></TreeView>
+        // TODO: Details View
       )}
       <h3>Selected: {destination}</h3>
       <Button disabled={!canMove}>Move</Button>
