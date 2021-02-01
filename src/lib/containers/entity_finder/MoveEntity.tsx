@@ -58,6 +58,31 @@ const Row: React.FunctionComponent<RowProps> = ({
     // TODO: pagination
   }
 
+    const currentLocation = paths[paths.length - 2].id
+    // let currentDirectory = projectDirectory
+    // await loadChildren(currentDirectory)
+    // for (const header of result.path.slice(1, result.path.length - 1)) {
+    //   currentDirectory = currentDirectory.children?.find(
+    //     x => x.entityHeader.id === header.id,
+    //   )!
+    //   await loadChildren(currentDirectory)
+    // }
+    // let prevDirectory = projectDirectory
+    // for (const entity of result.path.slice(2, result.path.length - 1)) {
+    //   let currentDirectory = {
+    //     node: entity,
+    //     loadedAllChildren: false,
+    //   }
+    //   prevDirectory.children = [currentDirectory]
+    //   prevDirectory = currentDirectory
+    // }
+    setCurrentProject(projectDirectory)
+    setSource(currentLocation)
+    setDestination(currentLocation)
+    setCurrentBrowsingDirectory([projectDirectory])
+  }
+
+  // Initial render
   useEffect(() => {
     if (autoExpand(entityHeader)) {
       setIsExpanded(true)
