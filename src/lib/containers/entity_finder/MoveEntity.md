@@ -1,7 +1,8 @@
 ```jsx
 
 <MoveEntity 
-  sessionToken={sessionToken} 
+  sessionToken={sessionToken}
+  entityId={"syn17052738"}
 
 />
 

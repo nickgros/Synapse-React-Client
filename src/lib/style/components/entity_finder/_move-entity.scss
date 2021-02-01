@@ -1,0 +1,29 @@
+@use '../../abstracts/variables' as SRC;
+@use 'sass:color';
+
+.MoveEntity_Row {
+  padding: 16px 10px;
+  border-bottom: 1px solid #cdcdcd;
+
+  .MoveEntityExpandButton {
+    padding: 8px;
+    font-size: large;
+    color: SRC.$primary-action-color-700;
+    cursor: pointer;
+  }
+}
+
+.MoveEntity_Row:hover {
+  background: color.change(SRC.$primary-action-color-500, $alpha: 0.1);
+}
+
+.MoveEntity_Row_Selected,
+.MoveEntity_Row_Selected:hover {
+  color: white;
+  font-weight: bold;
+  background: SRC.$primary-action-color-500;
+
+  .MoveEntityExpandButton {
+    color: white;
+  }
+}

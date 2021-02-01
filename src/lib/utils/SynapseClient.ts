@@ -64,6 +64,7 @@ import {
   EvaluationRound,
   FileResult,
   ProjectHeaderList,
+  EntityPath,
 } from './synapseTypes/'
 import UniversalCookies from 'universal-cookie'
 import { dispatchDownloadListChangeEvent } from './functions/dispatchDownloadListChangeEvent'
@@ -2408,6 +2409,19 @@ export const getMyProjects = (
     ${filter ? 'filter=' + filter + '&' : ''}
     ${sort ? 'sort=' + sort + '&' : ''}
     ${sortDirection ? 'sortDirection=' + sortDirection + '&' : ''}`,
+    sessionToken,
+    undefined,
+    BackendDestinationEnum.REPO_ENDPOINT,
+  )
+}
+
+// https://rest-docs.synapse.org/rest/GET/entity/id/path.html
+export const getEntityPath = (
+  sessionToken: string,
+  entityId: string,
+) => {
+  return doGet<EntityPath>(
+    `/repo/v1/entity/${entityId}/path`,
     sessionToken,
     undefined,
     BackendDestinationEnum.REPO_ENDPOINT,
