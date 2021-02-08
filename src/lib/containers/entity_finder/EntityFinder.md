@@ -1,8 +1,8 @@
 ```jsx
 
-<MoveEntity 
+<EntityFinder 
   sessionToken={sessionToken}
-  entityId={"syn17052738"}
+  entityId={"syn24183901"}
 
 />
 
