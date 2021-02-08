@@ -1,18 +1,21 @@
 {
   "files": {
-    "main.css": "/Synapse-React-Client/static/css/main.5ca50096.chunk.css",
-    "main.js": "/Synapse-React-Client/build/main.729c8d67.js",
+    "main.css": "/Synapse-React-Client/static/css/main.9e05bfb6.chunk.css",
+    "main.js": "/Synapse-React-Client/build/main.ee317288.js",
     "runtime-main.js": "/Synapse-React-Client/build/bundle.7fc64edc.js",
     "static/css/2.88437327.chunk.css": "/Synapse-React-Client/static/css/2.88437327.chunk.css",
-    "build/2.f9bae197.js": "/Synapse-React-Client/build/2.f9bae197.js",
-    "build/2.f9bae197.js.LICENSE.txt": "/Synapse-React-Client/build/2.f9bae197.js.LICENSE.txt",
+    "build/2.f7fb90c9.js": "/Synapse-React-Client/build/2.f7fb90c9.js",
+    "build/2.f7fb90c9.js.LICENSE.txt": "/Synapse-React-Client/build/2.f7fb90c9.js.LICENSE.txt",
     "index.html": "/Synapse-React-Client/index.html",
-    "precache-manifest.cfbdbd05da8bda00cef954ac137d9db5.js": "/Synapse-React-Client/precache-manifest.cfbdbd05da8bda00cef954ac137d9db5.js",
+    "precache-manifest.6a3e556bf23605a40223a5d7c2bcdb7b.js": "/Synapse-React-Client/precache-manifest.6a3e556bf23605a40223a5d7c2bcdb7b.js",
     "service-worker.js": "/Synapse-React-Client/service-worker.js",
     "static/css/2.88437327.chunk.css.map": "/Synapse-React-Client/static/css/2.88437327.chunk.css.map",
-    "static/css/main.5ca50096.chunk.css.map": "/Synapse-React-Client/static/css/main.5ca50096.chunk.css.map",
+    "static/css/main.9e05bfb6.chunk.css.map": "/Synapse-React-Client/static/css/main.9e05bfb6.chunk.css.map",
     "static/media/DNA_Two.svg": "/Synapse-React-Client/static/media/DNA_Two.d8f80972.svg",
     "static/media/Data2.svg": "/Synapse-React-Client/static/media/Data2.1104e430.svg",
+    "static/media/File.svg": "/Synapse-React-Client/static/media/File.20e42641.svg",
+    "static/media/Folder.svg": "/Synapse-React-Client/static/media/Folder.47c22b4e.svg",
+    "static/media/Project.svg": "/Synapse-React-Client/static/media/Project.7384a3b0.svg",
     "static/media/account-certified.77d5a352.svg": "/Synapse-React-Client/static/media/account-certified.77d5a352.svg",
     "static/media/account-registered.d8350d08.svg": "/Synapse-React-Client/static/media/account-registered.d8350d08.svg",
     "static/media/account-validated.db2e0572.svg": "/Synapse-React-Client/static/media/account-validated.db2e0572.svg",
@@ -25,8 +28,6 @@
     "static/media/file-dotted.svg": "/Synapse-React-Client/static/media/file-dotted.2dcc2eac.svg",
     "static/media/file.svg": "/Synapse-React-Client/static/media/file.ff06cc8d.svg",
     "static/media/flag.c9034d71.svg": "/Synapse-React-Client/static/media/flag.c9034d71.svg",
-    "static/media/icon_minus.svg": "/Synapse-React-Client/static/media/icon_minus.e81d9a4f.svg",
-    "static/media/icon_plus.svg": "/Synapse-React-Client/static/media/icon_plus.0e50c501.svg",
     "static/media/icon_plus_square_filled.b1430018.svg": "/Synapse-React-Client/static/media/icon_plus_square_filled.b1430018.svg",
     "static/media/icon_times.f3fa7393.svg": "/Synapse-React-Client/static/media/icon_times.f3fa7393.svg",
     "static/media/json-form-tool-no-submissions.svg": "/Synapse-React-Client/static/media/json-form-tool-no-submissions.e64940c0.svg",
@@ -43,13 +44,14 @@
     "static/media/speaker.45564927.svg": "/Synapse-React-Client/static/media/speaker.45564927.svg",
     "static/media/study-active.svg": "/Synapse-React-Client/static/media/study-active.bc52e72b.svg",
     "static/media/study-complete.svg": "/Synapse-React-Client/static/media/study-complete.b012f80b.svg",
-    "static/media/subscribe_plus.svg": "/Synapse-React-Client/static/media/subscribe_plus.f7a0ebbd.svg"
+    "static/media/subscribe_plus.svg": "/Synapse-React-Client/static/media/subscribe_plus.f7a0ebbd.svg",
+    "static/media/synapse-logo-blue.svg": "/Synapse-React-Client/static/media/synapse-logo-blue.d84c9120.svg"
   },
   "entrypoints": [
     "build/bundle.7fc64edc.js",
     "static/css/2.88437327.chunk.css",
-    "build/2.f9bae197.js",
-    "static/css/main.5ca50096.chunk.css",
-    "build/main.729c8d67.js"
+    "build/2.f7fb90c9.js",
+    "static/css/main.9e05bfb6.chunk.css",
+    "build/main.ee317288.js"
   ]
 }
