@@ -10,6 +10,7 @@ import { TreeView } from './EntityFinderTreeView'
 type EntityFinderProps = {
   sessionToken: string
   entityId: string // the entity to move
+  selectMultiple?: boolean
 }
 
 enum BrowseWithin {
@@ -21,6 +22,7 @@ enum BrowseWithin {
 export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
   sessionToken,
   entityId,
+  selectMultiple = false,
 }) => {
   const [currentBrowsingDirectory, setCurrentBrowsingDirectory] = useState<
     EntityHeader[]
@@ -139,6 +141,9 @@ export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
                 onSelect={selectedId => {
                   if (!selectedEntities.includes(selectedId)) {
                     setSelectedEntities([...selectedEntities, selectedId])
+                  }
+                  if (!selectMultiple) {
+                    setSelectedEntities([selectedId])
                   }
                 }}
                 onDeselect={deselectedId => {

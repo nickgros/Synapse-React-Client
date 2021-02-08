@@ -9,13 +9,6 @@ import DropdownMenu from 'react-bootstrap/esm/DropdownMenu'
 import { Dropdown } from 'react-bootstrap'
 import { EntityBadge } from '../EntityBadge'
 
-const columnStyle = { display: 'inline-block', textOverflow: 'ellipsis' }
-const col1Style = {
-  ...columnStyle,
-  width: '60%',
-}
-const col2Style = { ...columnStyle, width: '20%' }
-
 enum FinderScope {
   CURRENT_PROJECT = 'Current Project',
 }
@@ -36,7 +29,7 @@ export const getIconForEntityType = (type: string | EntityType) => {
     case EntityType.PROJECT:
       src = ProjectIcon
       break
-    case 'org.sagebionetworks.repo.model.File':
+    case 'org.sagebionetworks.repo.model.FileEntity':
     case EntityType.FILE:
       src = FileIcon
       break
@@ -49,6 +42,7 @@ export const getIconForEntityType = (type: string | EntityType) => {
   }
   return (
     <img
+      // alt={type} // TODO: the string types will look bad here
       style={{
         maxWidth: '15px',
         maxHeight: '15px',
@@ -118,6 +112,7 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
   return (
     <>
       <div
+        style={{ paddingLeft: `${level * 15 + 5}px` }}
         className={`EntityFinderTreeView__Row${
           selectedId === entityHeader.id
             ? ' EntityFinderTreeView__Row__Selected'
@@ -126,28 +121,31 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
         key={entityHeader.id}
         onClick={() => setSelectedId(entityHeader.id)}
       >
-        <span style={col1Style}>
-          <span style={{ paddingLeft: `${level * 15}px` }}></span>
-          {allChildrenLoaded && childEntities && childEntities.length > 0 ? (
-            <span
-              className={'EntityFinderTreeView__Row__ExpandButton'}
-              onClick={e => {
-                e.stopPropagation()
-                setIsExpanded(!isExpanded)
-              }}
-            >
-              {isExpanded ? '▾' : '▸'}
-            </span>
-          ) : (
-            <span style={{ padding: '10px' }}></span>
-          )}
-          <div style={{ display: 'inline-block' }}>
-            {getIconForEntityType(entityHeader.type)}
+        {allChildrenLoaded && childEntities && childEntities.length > 0 ? (
+          <div
+            className={'EntityFinderTreeView__Row__ExpandButton'}
+            onClick={e => {
+              e.stopPropagation()
+              setIsExpanded(!isExpanded)
+            }}
+          >
+            {isExpanded ? '▾' : '▸'}
           </div>
-          <div style={{ display: 'inline-block' }}>{entityHeader.name}</div>
-        </span>
-        <div style={{ display: 'inline-block' }}>
-          {bundle && <EntityBadge entityId={entityHeader.id} bundle={bundle} />}
+        ) : (
+          <span style={{ padding: '10px' }}></span>
+        )}
+        <div className="EntityFinderTreeView__Row__EntityIcon">
+          {getIconForEntityType(entityHeader.type)}
+        </div>
+        <div>{entityHeader.name}</div>
+        <div>
+          {bundle && (
+            <EntityBadge
+              entityId={entityHeader.id}
+              bundle={bundle}
+              wrap={'wrap'}
+            />
+          )}
         </div>
       </div>
       <div style={!isExpanded ? { display: 'none' } : {}}>

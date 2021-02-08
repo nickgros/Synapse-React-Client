@@ -9,12 +9,22 @@ $-border-color: #dcdcdc;
   border: 1px solid $-border-color;
   width: fill-container;
   &__Row {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: 20px 20px auto 55px;
     padding: 16px 10px;
+    align-items: center;
     &__ExpandButton {
-      padding: 8px;
+      grid-column-start: 1;
+      grid-column-end: 2;
       font-size: large;
       color: SRC.$primary-action-color-700;
       cursor: pointer;
+    }
+
+    &__EntityIcon {
+      grid-column-start: 2;
+      grid-column-end: 3;
     }
   }
   &__Row:hover {

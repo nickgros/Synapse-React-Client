@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import _ from 'lodash-es'
+import ReactTooltip from 'react-tooltip'
 
 const AUTHENTICATED_PRINCIPAL_ID = 273948
 const PUBLIC_PRINCIPAL_ID = 273949
@@ -30,6 +31,15 @@ const isPublic = (bundle: EntityBundle): boolean => {
 type EntityBadgeProps = {
   entityId: string
   bundle: EntityBundle
+  wrap?:
+    | 'wrap'
+    | 'nowrap'
+    | '-moz-initial'
+    | 'inherit'
+    | 'initial'
+    | 'revert'
+    | 'unset'
+    | 'wrap-reverse'
 }
 
 /**
@@ -46,23 +56,37 @@ type EntityBadgeProps = {
 export const EntityBadge: React.FunctionComponent<EntityBadgeProps> = ({
   entityId,
   bundle,
+  wrap = 'nowrap',
 }) => {
   // TODO: Unlink (this should only be shown in contexts where the entity should be editable)
   // TODO: Download list?
   return (
-    <div className="EntityBadge">
+    <div className="EntityBadge" style={{ flexWrap: wrap }}>
+      <ReactTooltip delayShow={100} place={'right'} html={true} />
+
       {bundle.benefactorAcl && (
         <>
-          <FontAwesomeIcon
-            className="EntityBadge__Badge"
-            icon={isPublic(bundle) ? faGlobe : faLock}
-            aria-hidden="true"
-          />
+          {isPublic(bundle) ? (
+            <FontAwesomeIcon
+              className="EntityBadge__Badge"
+              icon={faGlobe}
+              aria-hidden="true"
+              data-tip={'Public'}
+            />
+          ) : (
+            <FontAwesomeIcon
+              className="EntityBadge__Badge"
+              icon={faLock}
+              aria-hidden="true"
+              data-tip={'Private'}
+            />
+          )}
           {entityId === bundle.benefactorAcl.id}
           <FontAwesomeIcon
             className="EntityBadge__Badge"
             icon={faCheck}
             aria-hidden="true"
+            data-tip="Sharing Settings have been set"
           />
         </>
       )}
@@ -71,6 +95,12 @@ export const EntityBadge: React.FunctionComponent<EntityBadgeProps> = ({
           className="EntityBadge__Badge"
           icon={faTag}
           aria-hidden="true"
+          data-tip={Object.entries(bundle.annotations.annotations).reduce(
+            (previous, current) => {
+              return `${previous}<b>${current[0]}</b> ${current[1].value}<br/>`
+            },
+            '',
+          )}
         />
       )}
       {bundle.rootWikiId && (
@@ -79,6 +109,7 @@ export const EntityBadge: React.FunctionComponent<EntityBadgeProps> = ({
           className="EntityBadge__Badge"
           icon={faAlignLeft} // faNewspaper is ugly
           aria-hidden="true"
+          data-tip="Has a wiki"
         />
       )}
       {!!bundle.threadCount && !!(bundle.threadCount > 0) && (
@@ -86,6 +117,7 @@ export const EntityBadge: React.FunctionComponent<EntityBadgeProps> = ({
           className="EntityBadge__Badge"
           icon={faComment}
           aria-hidden="true"
+          data-tip="Has been mentioned in discussion"
         />
       )}
     </div>
