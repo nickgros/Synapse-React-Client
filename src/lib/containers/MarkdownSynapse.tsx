@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { SynapseClient, SynapseConstants } from '../utils'
-import { FileHandleResults, WikiPage } from '../utils/synapseTypes/'
+import { FileHandleResults, ObjectType, WikiPage } from '../utils/synapseTypes/'
 import UserCard from './UserCard'
 import Bookmarks from './widgets/Bookmarks'
 import SynapseImage from './widgets/SynapseImage'
 import SynapsePlot from './widgets/SynapsePlot'
 import SynapseVideo from './widgets/SynapseVideo'
-import { ObjectType } from '../utils/synapseTypes/WikiPageKey'
 import { ErrorBanner } from './ErrorBanner'
 import { SynapseClientError } from '../utils/SynapseClient'
 import { Button } from 'react-bootstrap'
@@ -576,8 +575,7 @@ export default class MarkdownSynapse extends React.Component<
     if (alignLowerCase === 'right') {
       buttonClasses += 'floatright '
     }
-    const buttonVariant =
-      highlight === 'true' ? 'secondary' : 'light-secondary'
+    const buttonVariant = highlight === 'true' ? 'secondary' : 'light-secondary'
     if (alignLowerCase === 'center') {
       return (
         <div

@@ -2,15 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex'
 import { SynapseClient } from '../../utils'
-import { EntityHeader } from '../../utils/synapseTypes'
+import { EntityBundle, EntityHeader } from '../../utils/synapseTypes'
 import { EntityType } from '../../utils/synapseTypes/EntityType'
 import { DetailsView } from './EntityFinderDetailsView'
 import { TreeView } from './EntityFinderTreeView'
 
+// type CheckCriteriaEvent = 'finder' | 'select' // optimization idea (premature)
 type EntityFinderProps = {
   sessionToken: string
-  entityId: string // the entity to move
+  initialContainerId: string // the initial entity container that should be open
+  confirmCopy: string // The text to display in the button
+  onConfirm: (selectedEntityIds: string[]) => void // returns the list of selected entity IDs
   selectMultiple?: boolean
+  allowSelectionFor?: (header: EntityHeader, bundle?: EntityBundle) => boolean // TODO: Define additional criteria that prevents an entity from being selected.
+  // other names: `enableSelectionFilter`
 }
 
 enum BrowseWithin {
@@ -21,66 +26,28 @@ enum BrowseWithin {
 
 export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
   sessionToken,
-  entityId,
+  initialContainerId,
   selectMultiple = false,
 }) => {
   const [currentBrowsingDirectory, setCurrentBrowsingDirectory] = useState<
     EntityHeader[]
   >([])
-  const [entityPath, setEntityPath] = useState<EntityHeader[]>([]) // Array of synIds, first is the project, last is the parent.
-  const [source, setSource] = useState<string>() // synId of parent, maybe should be prop not state
-  const [destination, setDestination] = useState<string>('') // synId
-  const [selectedEntities, setSelectedEntities] = useState<string[]>([]) // synId(s)
-  const [currentProject, setCurrentProject] = useState<EntityHeader>()
-  const [myProjects, setMyProjects] = useState<Array<EntityHeader>>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [browseWithin, setBrowseWithin] = useState<BrowseWithin>(
-    BrowseWithin.CURRENT_PROJECT,
-  )
+
+  const [containerId, setContainerId] = useState<string>(initialContainerId) // synId
+  const [selectedEntities, setSelectedEntities] = useState<string[]>([]) // synId(s)
+
+  const [currentProject, setCurrentProject] = useState<EntityHeader>()
+  const [myProjects] = useState<Array<EntityHeader>>([])
+  const [browseWithin] = useState<BrowseWithin>(BrowseWithin.CURRENT_PROJECT)
 
   const initialRender = async () => {
-    // SynapseClient.getMyProjects(sessionToken).then(
-    //   (projects: ProjectHeaderList) => {
-    //     setMyProjects(
-    //       projects.results.map(
-    //         (project: ProjectHeader): Directory => {
-    //           return {
-    //             entityHeader: project,
-    //             loadedAllChildren: false,
-    //             children: [],
-    //           }
-    //         },
-    //       ),
-    //     )
-    //   },
-    // )
-    const result = await SynapseClient.getEntityPath(sessionToken, entityId)
+    const result = await SynapseClient.getEntityPath(sessionToken, containerId)
     const paths = result.path.slice(1, result.path.length)
-    setEntityPath(paths)
 
     const projectDirectory = paths[0]
 
-    const currentLocation = paths[paths.length - 2].id
-    // let currentDirectory = projectDirectory
-    // await loadChildren(currentDirectory)
-    // for (const header of result.path.slice(1, result.path.length - 1)) {
-    //   currentDirectory = currentDirectory.children?.find(
-    //     x => x.entityHeader.id === header.id,
-    //   )!
-    //   await loadChildren(currentDirectory)
-    // }
-    // let prevDirectory = projectDirectory
-    // for (const entity of result.path.slice(2, result.path.length - 1)) {
-    //   let currentDirectory = {
-    //     node: entity,
-    //     loadedAllChildren: false,
-    //   }
-    //   prevDirectory.children = [currentDirectory]
-    //   prevDirectory = currentDirectory
-    // }
     setCurrentProject(projectDirectory)
-    setSource(currentLocation)
-    setDestination(currentLocation)
     setCurrentBrowsingDirectory([projectDirectory])
   }
 
@@ -116,11 +83,11 @@ export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
             <ReflexElement minSize={200} size={350}>
               <TreeView
                 sessionToken={sessionToken}
-                entities={currentBrowsingDirectory}
+                topLevelEntities={currentBrowsingDirectory}
+                selected={containerId}
                 setSelected={(id: string) => {
-                  setDestination(id)
+                  setContainerId(id)
                 }}
-                selected={destination}
                 // autoExpand={() => false}
                 // autoExpand={(entityHeader: EntityHeader) => {
                 //   const value = entityPath
@@ -136,7 +103,7 @@ export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
             <ReflexElement>
               <DetailsView
                 sessionToken={sessionToken}
-                parentContainer={destination}
+                parentContainer={containerId}
                 selected={selectedEntities}
                 onSelect={selectedId => {
                   if (!selectedEntities.includes(selectedId)) {
@@ -159,8 +126,12 @@ export const EntityFinder: React.FunctionComponent<EntityFinderProps> = ({
           </ReflexContainer>
         </div>
       )}
-      <p>Current container: {destination}</p>
-      <p>Selected entities: {selectedEntities.join(', ')}</p>
+      <p>Current container: {containerId}</p>
+      {selectMultiple ? (
+        <p>Selected entities: {selectedEntities.join(', ')}</p>
+      ) : (
+        <p>Selected:</p>
+      )}
       <Button
         onClick={() => {
           console.log(currentBrowsingDirectory)

@@ -11,7 +11,7 @@ $-border-color: #dcdcdc;
   &__Row {
     width: 100%;
     display: inline-grid;
-    grid-template-columns: 20px 20px auto 55px;
+    grid-template-columns: 15px 25px auto 55px;
     padding: 16px 10px;
     align-items: center;
     &__ExpandButton {
@@ -60,20 +60,25 @@ $-border-color: #dcdcdc;
     border-bottom: 1px solid #f9f9f9;
     height: 40px;
   }
+
   &__Row:nth-child(even) {
     background: #f9f9f9;
   }
 
+  &__Row:hover,
+  &__Row:hover:nth-child(even) {
+    background: color.change(SRC.$primary-action-color-500, $alpha: 0.2);
+  }
+
   &__Row__Selected,
-  &__Row__Selected:nth-child(even) {
+  &__Row__Selected:hover,
+  &__Row__Selected:nth-child(even),
+  &__Row__Selected:hover:nth-child(even) {
     background-color: SRC.$primary-action-color-500;
     color: white;
   }
-
-  // &__TableBody:nth-child(even) {
-  // }
-
   // TODO: probably a better way to do this, maybe with grid?
+  .EntityIconColumn,
   .NameColumn,
   .AccessColumn,
   .IdColumn,
@@ -81,6 +86,10 @@ $-border-color: #dcdcdc;
   .ModifiedOnColumn {
     padding: 5px;
     padding-left: 10px;
+  }
+
+  .EntityIconColumn {
+    width: 10px;
   }
 
   .NameColumn {

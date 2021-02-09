@@ -1,11 +1,15 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SynapseClient } from '../..'
 import FolderIcon from '../../assets/icons/entity/Folder.svg'
 import FileIcon from '../../assets/icons/entity/File.svg'
 import ProjectIcon from '../../assets/icons/entity/Project.svg'
-import { EntityBundle, EntityHeader } from '../../utils/synapseTypes'
+import {
+  EntityBundle,
+  EntityHeader,
+  EntityPath,
+} from '../../utils/synapseTypes'
 import { EntityType } from '../../utils/synapseTypes/EntityType'
-import DropdownMenu from 'react-bootstrap/esm/DropdownMenu'
+// import DropdownMenu from 'react-bootstrap/esm/DropdownMenu'
 import { Dropdown } from 'react-bootstrap'
 import { EntityBadge } from '../EntityBadge'
 
@@ -19,7 +23,7 @@ type TreeViewRowProps = {
   selectedId: string
   setSelectedId: (entityId: string) => void
   level?: number
-  // autoExpand?: (entityHeader: EntityHeader) => boolean
+  autoExpand?: (entityId: string) => boolean
 }
 
 export const getIconForEntityType = (type: string | EntityType) => {
@@ -46,8 +50,8 @@ export const getIconForEntityType = (type: string | EntityType) => {
       style={{
         maxWidth: '15px',
         maxHeight: '15px',
-        marginRight: '10px',
-        marginBottom: '3px',
+
+        margin: '3px',
       }}
       src={src}
     ></img>
@@ -60,7 +64,7 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
   selectedId,
   setSelectedId,
   level = 0,
-  // autoExpand = () => false,
+  autoExpand = () => false,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [allChildrenLoaded, setAllChildrenLoaded] = useState(false)
@@ -94,13 +98,13 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
     ).then(response => {
       setBundle(response)
     })
-  }, [])
+  }, [childEntities, entityHeader.id])
 
   useEffect(() => {
-    // if (autoExpand(entityHeader)) {
-    //   setIsExpanded(true)
-    // }
-  }, [childEntities])
+    if (autoExpand(entityHeader.id)) {
+      setIsExpanded(true)
+    }
+  }, [childEntities, autoExpand])
 
   useEffect(() => {
     if (!allChildrenLoaded) {
@@ -158,7 +162,7 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
               selectedId={selectedId}
               setSelectedId={setSelectedId}
               level={level + 1}
-              // autoExpand={autoExpand}
+              autoExpand={autoExpand}
             ></TreeViewRow>
           )
         })}
@@ -169,21 +173,38 @@ const TreeViewRow: React.FunctionComponent<TreeViewRowProps> = ({
 
 export type TreeViewProps = {
   sessionToken: string
-  entities: EntityHeader[]
+  topLevelEntities: EntityHeader[]
   selected: string // synId(s)
   selectMultiple?: boolean
   setSelected: Function
-  // autoExpand: Function
 }
 
 export const TreeView: React.FunctionComponent<TreeViewProps> = ({
   sessionToken,
-  entities,
+  topLevelEntities,
   selected,
   setSelected,
-  // autoExpand,
 }) => {
-  const [scope, setScope] = useState(FinderScope.CURRENT_PROJECT)
+  const [scope] = useState(FinderScope.CURRENT_PROJECT)
+  const [currentSelectedPath, setCurrentSelectedPath] = useState<EntityPath>()
+
+  const isInPath = (id: string) => {
+    if (!currentSelectedPath) {
+      return false
+    }
+    for (const eh of currentSelectedPath.path) {
+      if (id === eh.id) {
+        return true
+      }
+    }
+    return false
+  }
+
+  useEffect(() => {
+    SynapseClient.getEntityPath(sessionToken, selected).then(path => {
+      setCurrentSelectedPath(path)
+    })
+  }, [selected])
 
   return (
     <div className="EntityFinderTreeView" style={{ height: '400px' }}>
@@ -201,7 +222,7 @@ export const TreeView: React.FunctionComponent<TreeViewProps> = ({
         </Dropdown>{' '}
       </div>
       <div style={{ overflow: 'auto' }}>
-        {entities?.map(entity => {
+        {topLevelEntities?.map(entity => {
           return (
             <TreeViewRow
               key={entity.id}
@@ -211,7 +232,7 @@ export const TreeView: React.FunctionComponent<TreeViewProps> = ({
               setSelectedId={(entityId: string) => {
                 setSelected(entityId)
               }}
-              // autoExpand={autoExpand}
+              autoExpand={isInPath}
             ></TreeViewRow>
           )
         })}

@@ -6,7 +6,6 @@ import {
   faComment,
   faGlobe,
   faLock,
-  faNewspaper,
   faTag,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,7 +17,6 @@ const PUBLIC_PRINCIPAL_ID = 273949
 const ANONYMOUS_PRINCIPAL_ID = 273950
 
 const isPublic = (bundle: EntityBundle): boolean => {
-  console.log(bundle.threadCount)
   return bundle.benefactorAcl!.resourceAccess.some(ra => {
     return (
       ra.principalId === AUTHENTICATED_PRINCIPAL_ID ||
@@ -31,8 +29,8 @@ const isPublic = (bundle: EntityBundle): boolean => {
 type EntityBadgeProps = {
   entityId: string
   bundle: EntityBundle
-  wrap?:
-    | 'wrap'
+  wrap?: // possible settings for flex-wrap
+  | 'wrap'
     | 'nowrap'
     | '-moz-initial'
     | 'inherit'

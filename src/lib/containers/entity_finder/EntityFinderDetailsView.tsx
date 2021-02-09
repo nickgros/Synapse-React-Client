@@ -4,16 +4,15 @@ import { SynapseClient } from '../..'
 import { EntityBundle, EntityHeader } from '../../utils/synapseTypes'
 import { EntityType } from '../../utils/synapseTypes/EntityType'
 import { EntityBadge } from '../EntityBadge'
-import RenderIfInView from '../RenderIfInView'
 import { getIconForEntityType } from './EntityFinderTreeView'
 import moment from 'moment'
+import { useInView } from 'react-intersection-observer'
 
 type DetailsViewRowProps = {
   sessionToken: string
   entityHeader: EntityHeader
   isSelected: boolean
   onClick: (entityId: string) => void
-  autoExpand?: (entityHeader: EntityHeader) => boolean
 }
 
 const DetailsViewRow: React.FunctionComponent<DetailsViewRowProps> = ({
@@ -21,47 +20,52 @@ const DetailsViewRow: React.FunctionComponent<DetailsViewRowProps> = ({
   entityHeader,
   isSelected,
   onClick,
-  autoExpand = () => false,
 }) => {
   const [bundle, setBundle] = useState<EntityBundle>()
-
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+  })
   useEffect(() => {
-    SynapseClient.getEntityBundleV2(
-      entityHeader.id,
-      {
-        includeAnnotations: true,
-        includeBenefactorACL: true,
-        includePermissions: true,
-        includeRootWikiId: true,
-        includeThreadCount: true,
-      },
-      undefined,
-      sessionToken,
-    ).then(response => {
-      setBundle(response)
-    })
-  }, [])
+    if (inView) {
+      SynapseClient.getEntityBundleV2(
+        entityHeader.id,
+        {
+          includeAnnotations: true,
+          includeBenefactorACL: true,
+          includePermissions: true,
+          includeRootWikiId: true,
+          includeThreadCount: true,
+        },
+        undefined,
+        sessionToken,
+      ).then(response => {
+        setBundle(response)
+      })
+    }
+  }, [inView])
 
   return (
     <tr
+      ref={ref}
       className={`EntityFinderDetailsView__Row${
         isSelected ? ' EntityFinderDetailsView__Row__Selected' : ''
       }`}
       onClick={() => onClick(entityHeader.id)}
     >
-      <td className="NameColumn">
-        <span>{getIconForEntityType(entityHeader.type)}</span>
-        {entityHeader.name}
+      <td className="EntityIconColumn">
+        {getIconForEntityType(entityHeader.type)}
       </td>
+
+      <td className="NameColumn">{entityHeader.name}</td>
       <td className="AccessColumn">
         {bundle && <EntityBadge entityId={entityHeader.id} bundle={bundle} />}
       </td>
       <td className="IdColumn">{entityHeader.id}</td>
       <td className="CreatedOnColumn">
-        {moment(entityHeader.createdOn).format('YYYY-MM-DD hh:mm A')}
+        {moment(entityHeader.createdOn).format('YYYY-MM-DD h:mm A')}
       </td>
       <td className="ModifiedOnColumn">
-        {moment(entityHeader.modifiedOn).format('YYYY-MM-DD hh:mm A')}
+        {moment(entityHeader.modifiedOn).format('YYYY-MM-DD h:mm A')}
       </td>
     </tr>
   )
@@ -109,8 +113,9 @@ export const DetailsView: React.FunctionComponent<DetailsViewProps> = ({
       <table style={{ width: '100%' }}>
         <thead>
           <tr className="EntityFinderDetailsView__HeaderRow">
+            <th className="EntityIconColumn"></th>
             <th className="NameColumn">Name</th>
-            <th className="AccessColumn">Access</th>
+            <th className="AccessColumn"></th>
             <th className="IdColumn">ID</th>
             <th className="CreatedOnColumn">Created on</th>
             <th className="ModifiedOnColumn">Modified on</th>

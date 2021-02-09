@@ -12,7 +12,8 @@
 ```jsx
 <EntityFinder 
   sessionToken={sessionToken}
-  entityId={"syn24183901"}
+  initialContainerId={"syn24610451"}
   selectMultiple={true}
+  onConfirm={(selectedEntityIds) => {console.log(selectedEntityIds)}}
 />
 ```
